@@ -38,6 +38,8 @@ Secondly, lack of speed of database systems can be an issue for high-speed trans
 
 To sum up the current literature: price differences between crypto assets in different markets offer great opportunities for profit, although there are some limitations and challenges including creating high-frequency infrastructure, sourcing data, and ensuring arbittrage opportunities can actually lead to profits. Our project will provide a database system to show the arbitrage opportunities and track those on a historical basis rather than making a transaction.
 
+Previous work such as Pionex, Coinrule, Bitsgap, Cryptohopper are platforms that allow users to look at market arbitrage opportunities and consist of bots that can perform trading. These sites update their arbitrage database based on data from third party sources that scan data across multiple sources such as CoinMarketCap. This data however, may not always be [accurate](https://www.forbes.com/sites/annacorradi/2019/07/23/has-top-cryptocurrency-website-coinmarketcap-completely-given-up-on-data-accuracy/?sh=37a42a9772d9). The most accurate way to compare arbitrage opportunities is to look at data directly from the markets. A practical implementation of this method is hard due to its lack of scalability. Our application aims to provide arbitrage opportunities across various markets for free and use both market data and third party sources to provide this information so that users can make a more informed decision.  
+
 ## Refrences
 [1] Varian, Hal R. "The arbitrage principle in financial economics." Journal of Economic Perspectives 1.2 (1987): 55-72.
 
@@ -46,3 +48,7 @@ To sum up the current literature: price differences between crypto assets in dif
 [3] How to Benefit From Crypto Arbitrage. https://coinmarketcap.com/ Accessed 7 Feb 2022.
 
 [4] Boonpeam, Naratorn, Warodom Werapun, and Tanakorn Karode. "The arbitrage system on decentralized exchanges." 2021 18th International Conference on Electrical Engineering/Electronics, Computer, Telecommunications and Information Technology (ECTI-CON). IEEE, 2021.
+
+[5] Corradi, Anna. “Has Top Cryptocurrency Website CoinMarketCap Completely given up on Data Accuracy?” Forbes, Forbes Magazine, 23 July 2019, https://www.forbes.com/sites/annacorradi/2019/07/23/has-top-cryptocurrency-website-coinmarketcap-completely-given-up-on-data-accuracy/?sh=37a42a9772d9. 
+
+[6] “Crypto Arbitrage Guide - What It Is and How to Find It - algotrading101 Blog.” Quantitative Trading Ideas and Guides - AlgoTrading101 Blog, 14 May 2021, https://algotrading101.com/learn/crypto-arbitrage-guide/. 
