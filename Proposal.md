@@ -27,7 +27,7 @@ There are numerous studies in analyzing arbitrage opportunities in cryptocurrenc
 
 As a result of the prices differences of the crypto assets, traders seek different approaches to make a profit by buying lower prices and selling higher prices. However, the time and speed between transactions are other important problems during the process. Therefore, traders or market makers use bots or trading algorithms to manage high-frequency transactions in milliseconds. With that, there are some tradeoffs, risks, and limits to creating an infrastructure to come up with high-frequency transactions.
 
-One of the important limitations is the transaction fees of the markets. In other words, it may not be worth making a transaction between two markets because transaction fees may be higher than your expected profit Boonpeam et all (2021).
+One of the important limitations is the transaction fees of the markets. In other words, it may not be worth making a transaction between two markets because transaction fees may be higher than your expected profit (Boonpeam et all 2021).
 
 Secondly, lack of speed of database systems for high-speed transactions. To compare thousands of the prices in numbers of markets in milliseconds makes this process very challenging. Moreover, there are some limitations to sending too many queries to the individual markets. Additionally, you may need to use the APIs of each market maker it may be a problem with the integrity of your system.
 
