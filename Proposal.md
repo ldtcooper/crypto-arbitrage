@@ -4,7 +4,7 @@ Getting into cryptocurrency daytrading starting out pretty rough? Wondering how 
 # The Data Solution & Scope
 This project will clearly involve data management to scrape, clean, store, and retrieve the data from the cryptocurrency marketplaces. It is important since it may make cryptocurrency marketplaces even more accessible and thus provide easier usage to people who are trying to learn about crypto. 
 
-Our project is a semi-standart term prject of the course of [Database Systems] (https://courses.cs.duke.edu/spring22/compsci516/) at Duke University. A semi-standart project is basically developed by team members from project idea to end product. 
+Our project is a semi-standart term prject of the course of [Database Systems](https://courses.cs.duke.edu/spring22/compsci516/) at Duke University. A semi-standart project is basically developed by team members from project idea to end product. 
 
 # The Basic Features
 We plan to create a user portal in which you can search/add the currencies you wish to look at and compare, then we display the various prices and some statistics from each marketplace for each cryptocurrency selected. Additionally, we will have live scraping so that the data can be updated regularly, so you see the various arbitrage opportunities throughout the day. Thus the four basic features will be:
