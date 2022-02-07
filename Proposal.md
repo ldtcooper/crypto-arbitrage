@@ -22,15 +22,14 @@ To improve our project further, we want to make:
   3. Benchmarking historical displays with indices (S&P, risk-free rate like T-bonds)
   4. Scrape and display news articles pertaining crypto/finance
 
-# Team Members
-Our team has cross functional disiplinaries: 
-
-  1. Logan Cooper
-  2. Faruk Uslu
-  3. Rathi Kashi
-  4. Pavan Chaudhari
-
 # Survey of previous work
+There are numeruous studies in analyzing arbitrage opportunities in cryptocurrency markets in the literature. For example, Markov and Schoar (2020) showed that price of cryptocurrencues depended on the countries and local markets and this variaty caused the arbitrage opportunities hourly basis or daily basis. [coinmarketcap.com](https://coinmarketcap.com/) one of the world's most trusted & accurate source for crypto market described the reasons of price differences as market inneficiency, low-volume exchanges and different volumes of supply and demands of assets. 
+
+As a results of the prices differences of the crypto assets, traders seek different approaches to make profit by buying lower price and selling higher price. However, the time and speed between transactions are another important problem during the process. Therefore, traders or market makers use bots or trading algorithms to manage high-frequency transactions in miliseconds. 
+
+
 
 # Refrences
 [1] Varian, Hal R. "The arbitrage principle in financial economics." Journal of Economic Perspectives 1.2 (1987): 55-72.
+[2] Makarov, Igor, and Antoinette Schoar. "Trading and arbitrage in cryptocurrency markets." Journal of Financial Economics 135.2 (2020): 293-319.
+[3] How to Benefit From Crypto Arbitrage. https://coinmarketcap.com/ Accessed 7 Feb 2022.
