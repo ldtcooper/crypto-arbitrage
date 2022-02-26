@@ -1,7 +1,11 @@
 # Planning
 ## Frontend
 ### Technologies
-It seems like we are looking at using React/Redux. Once we settle on that for sure, we can plan this out more.
+- React
+- Redux
+- Recharts
+- MUI
+- create-react-app
 
 ### Design
 This will be a fairly simple app design wise. It will have two main pages: one for the current arbitrage data and one for historical data. The main user interaction will be inputting request data into fields: the currency, the exchanges, and (for historical data) the date range.
@@ -26,16 +30,10 @@ We will want to have two main frontend routes. Since the main attraction will be
 
 ## Backend
 ### Technologies
-While we had originally discussed Python, I've also seen mentions of Node and PHP in the chat.
+- Flask
+- Some DB interaction library
 
-#### Python
-If we use Python, we will probably want to use either Flask or Django. Django might be easier as it comes with tools for database interaction. Flask is much more bare-bones, so we would need to find a DB interaction library.
-
-#### Node (JavaScript)
-If we use Node, we will probably want to use Express. This is on a similar level to Flask, so we would need to find a DB interaction library.
-
-#### PHP
-I can't speak much to what we would need for PHP.
+We can use the mini Amazon project to see what kinds of libraries we'll need.
 
 ### Routes
 We will probably want the following backend routes (i.e. API endpoints):
@@ -48,4 +46,17 @@ We will probably want the following backend routes (i.e. API endpoints):
 PostgreSQL
 
 ### Tables
-It seems like we will need at least two tables: Rates and Exchanges. Exchanges should be broken off to avoid storing redundant strings in row after row and will decrease the amount of data we have to store slightly.
+It seems like we will need three tables: Rates , Currency, and Exchanges. Exchanges should be broken off to avoid storing redundant strings in row after row and will decrease the amount of data we have to store slightly.
+
+
+## Scraping
+We were able to find public APIs for the following cryptocurrency exchanges:
+- [Binance](https://github.com/binance-us/binance-official-api-docs/blob/master/rest-api.md)
+- [FTX](https://docs.ftx.com/#rest-api)
+- [Coinbase](https://developers.coinbase.com/docs/wallet/guides/price-data)
+- [Kraken](https://docs.kraken.com/rest/#section/Example-API-Clients)
+- [Huobei Global](https://huobiapi.github.io/docs/spot/v1/en/#market-data)
+
+According to [CoinMarketCap](https://coinmarketcap.com/rankings/exchanges/) these are the five largest exchanges by [trading volume](https://www.investopedia.com/terms/v/volumeoftrade.asp). 
+
+Additionally, it looks like Coinbase has a Python library to facilitate access to their API.
