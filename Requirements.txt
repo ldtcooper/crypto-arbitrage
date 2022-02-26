@@ -1,0 +1,3 @@
+pip install pandas #install panda using pip
+pip install yfinance #install yfinance using pip
+pip install YahooFinancials #install YahooFinancials using pip
