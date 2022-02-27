@@ -94,7 +94,7 @@ const Header = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <a href="https://github.com/ldtcooper/crypto-arbitrage">
                             <GitHubIcon />
-                            <span class="accessibility-text">Check out our code on GitHub</span>
+                            <span className="accessibility-text">Check out our code on GitHub</span>
                         </a>
                     </Box>
                 </Toolbar>
