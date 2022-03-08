@@ -9,8 +9,8 @@ import { Link } from 'react-router-dom';
 import { Link as MUILink } from '@mui/material';
 
 const pages = [
-    { label: 'Current Arbitrage', route: '/' },
-    { label: 'Historical Data', route: '/history' }
+    { label: 'Arbitrage', route: '/' },
+    { label: 'History', route: '/history' }
 ];
 
 const Header = () => {

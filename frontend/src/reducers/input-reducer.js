@@ -10,12 +10,12 @@ export const inputSlice = createSlice({
         updateInput: (state, { id, input }) => {
             state[id] = input;
         },
-        clearInputs: () => {
+        clearInputs: (state) => {
             state = initialState;
         }
     },
 });
 
-export const { getCurrentData, getHistoricalData } = dataSlice.actions;
+export const { updateInput, clearInputs } = inputSlice.actions;
 
 export default inputSlice.reducer;
