@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header, HistoryPage, ArbitragePage } from './components';
+import { Header, HistoryPage, ArbitragePage, Menu } from './components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
@@ -8,11 +8,14 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Header />
-        <Routes>
-          <Route path="/" element={<ArbitragePage />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="*" element={<ArbitragePage />} />
-        </Routes>
+        <div  style={{ display: 'flex' }}>
+          <Menu />
+          <Routes>
+            <Route path="/" element={<ArbitragePage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="*" element={<ArbitragePage />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </div>
   );

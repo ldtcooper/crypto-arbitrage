@@ -26,7 +26,7 @@ function DataTable({ data = rows, currency = 'Bitcoin' }) {
     const headers = Object.keys(data[0]);
     
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{}}>
             <Typography variant="h4" component="h2">{currency}</Typography>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
