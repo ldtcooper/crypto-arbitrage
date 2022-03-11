@@ -4,8 +4,10 @@ import { LineGraph } from '.';
 const HistoryPage = () => {
     return (
         <main>
-            <h1>History</h1>
-            <LineGraph />
+            <div className='main-content'>
+                <h1>History</h1>
+                <LineGraph />
+            </div>
         </main>
     );
 }

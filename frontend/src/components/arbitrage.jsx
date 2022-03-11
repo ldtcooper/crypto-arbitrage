@@ -3,9 +3,11 @@ import { DataTable } from './';
 
 const ArbitragePage = () => {
     return (
-        <main style={{ display: 'flex', flexDirection: 'column' }}>
-            <h1>Arbitrage</h1>
-            <DataTable />        
+        <main>
+            <div className="main-content">
+                <h1>Arbitrage</h1>
+                <DataTable />   
+            </div>
         </main>
     );
 }
