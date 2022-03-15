@@ -3,13 +3,14 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import Toolbar from '@mui/material/Toolbar';
+import { useSelector, useDispatch } from 'react-redux';
+import Checkboxes from './checkboxes';
+import Dropdown from './dropdown';
+
+import {
+    updateInput,
+    selectInputVal
+} from '../reducers';
 
 const drawerWidth = 240;
 
@@ -21,31 +22,34 @@ function Menu(props) {
         setMobileOpen(!mobileOpen);
     };
 
+    const currency = useSelector(selectInputVal('currency'));
+    const exchanges = useSelector(selectInputVal('exchanges'));
+    const dispatch = useDispatch();
+
     const drawer = (
         <div>
-            <Toolbar />
+            <Dropdown 
+                options={[
+                    {val: 'BTC', text: 'Bitcoin'},
+                    {val: 'ETH', text: 'Ethereum'},
+                ]}
+                value={currency || ''}
+                label="Currency"
+                handleChange={(e) => {
+                    return dispatch(updateInput(e.target))
+                }}
+            />
             <Divider />
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
+            <Checkboxes 
+                options={[
+                    { val: 'binance', text: 'Binance' },
+                    { val: 'ftx', text: 'FTX' },
+                    { val: 'coinbase', text: 'Coinbase' },
+                    { val: 'kraken', text: 'Kraken' },
+                    { val: 'huobei', text: 'Huobei Global' },
+                ]}
+                label='Exchanges'
+            />
         </div>
     );
 

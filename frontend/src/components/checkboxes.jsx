@@ -6,19 +6,19 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-export default function Checkboxes({ values, label, handleChange }) {
+export default function Checkboxes({ options, label, handleChange, values}) {
     return (
         <Box sx={{ display: 'flex' }}>
             <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                 <FormLabel component="legend">{label}</FormLabel>
                 <FormGroup>
                     {
-                        values.map(({ val, name }) => (
+                        options.map(({ val, text }) => (
                             <FormControlLabel
                                 control={
-                                    <Checkbox checked={gilad} onChange={handleChange} name={name} />
+                                    <Checkbox checked={true} onChange={handleChange} name={text} key={val}/>
                                 }
-                                label={name}
+                                label={text}
                             />
                         ))
                     }
