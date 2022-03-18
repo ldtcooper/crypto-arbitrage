@@ -6,11 +6,13 @@ import Drawer from '@mui/material/Drawer';
 import { useSelector, useDispatch } from 'react-redux';
 import Checkboxes from './checkboxes';
 import Dropdown from './dropdown';
+import { useLocation } from 'react-router-dom'
 
 import {
     updateInput,
     toggleExchange,
-    selectInputVal
+    selectInputVal,
+    selectDates
 } from '../reducers';
 
 const drawerWidth = 240;
@@ -18,6 +20,7 @@ const drawerWidth = 240;
 function Menu(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const isHistory = useLocation().pathname === '/history';
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -25,6 +28,11 @@ function Menu(props) {
 
     const currency = useSelector(selectInputVal('currency'));
     const exchanges = useSelector(selectInputVal('exchanges'));
+    const startDate = useSelector(selectInputVal('startDate'));
+    const endDate = useSelector(selectInputVal('endDate'));
+
+    const availableDates = useSelector(selectDates()).map((el) => ({ val: el, text: el }));
+
     const dispatch = useDispatch();
 
     const drawer = (
@@ -54,6 +62,27 @@ function Menu(props) {
                     return dispatch(toggleExchange({ name }))
                 }}
             />
+            {
+                isHistory ? (
+                    <div>
+                        <Divider />
+                        <Dropdown
+                            options={availableDates}
+                            value={startDate || ''}
+                            label="Start Date"
+                            handleChange={(e) => dispatch(updateInput(e.target))}
+                        />
+                        <Dropdown
+                            options={availableDates}
+                            value={endDate || ''}
+                            label="End Date"
+                            handleChange={(e) => dispatch(updateInput(e.target))}
+                        />
+                    </div>
+                ) : null
+                
+            }
+
         </div>
     );
 
