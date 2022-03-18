@@ -13,13 +13,17 @@ export const inputSlice = createSlice({
             const { name, value } = action.payload;
             state[name] = value;
         },
+        toggleExchange: (state, action) => {
+            const { name, value } = action.payload;
+            state.exchanges[name] = !state.exchanges[name];
+        },
         clearInputs: (state) => {
             state = initialState;
         }
     },
 });
 
-export const { updateInput, clearInputs } = inputSlice.actions;
+export const { updateInput, clearInputs, toggleExchange } = inputSlice.actions;
 
 export const selectInputVal = (name) => (state) => state.input[name];
 

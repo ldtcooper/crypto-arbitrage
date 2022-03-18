@@ -15,8 +15,9 @@ export default function Checkboxes({ options, label, handleChange, values}) {
                     {
                         options.map(({ val, text }) => (
                             <FormControlLabel
+                                key={val}
                                 control={
-                                    <Checkbox checked={true} onChange={handleChange} name={text} key={val}/>
+                                    <Checkbox checked={values[val] || false} onChange={handleChange} name={val}/>
                                 }
                                 label={text}
                             />

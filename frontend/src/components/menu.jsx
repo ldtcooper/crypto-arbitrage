@@ -9,6 +9,7 @@ import Dropdown from './dropdown';
 
 import {
     updateInput,
+    toggleExchange,
     selectInputVal
 } from '../reducers';
 
@@ -35,9 +36,7 @@ function Menu(props) {
                 ]}
                 value={currency || ''}
                 label="Currency"
-                handleChange={(e) => {
-                    return dispatch(updateInput(e.target))
-                }}
+                handleChange={(e) => dispatch(updateInput(e.target))}
             />
             <Divider />
             <Checkboxes 
@@ -49,6 +48,11 @@ function Menu(props) {
                     { val: 'huobei', text: 'Huobei Global' },
                 ]}
                 label='Exchanges'
+                values={exchanges}
+                handleChange={(e) => {
+                    const { name } = e.target;
+                    return dispatch(toggleExchange({ name }))
+                }}
             />
         </div>
     );
