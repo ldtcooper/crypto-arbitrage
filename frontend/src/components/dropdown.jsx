@@ -15,7 +15,7 @@ export default function Dropdown({ options, value, handleChange, label }) {
                     value={value}
                     onChange={handleChange}
                     label={label}
-                    name={label}
+                    name={label.toLowerCase()}
                 >
                     {
                         options.map(({ val, text }) => (
