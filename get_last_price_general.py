@@ -3,6 +3,9 @@ def last_price(currency):
     import json
     import requests
 
+    # return list for each exchange
+    prices = {}
+
     # Making list for multiple crypto's
     crypto = {}
 
@@ -21,30 +24,39 @@ def last_price(currency):
     response_binance = requests.get("https://api.binance.com/api/v3/ticker/price?symbol="+crypto[currency]+"USDT")
     data_binance = response_binance.json()
     price_binance = data_binance['price']
-    print(f"{data_binance['symbol']} price is {price_binance} at Binance")
+    prices['Binance'] = price_binance
 
     #COINBASE
     response_coinbase = requests.get("https://api.coinbase.com/v2/prices/"+crypto[currency]+"-USD/spot")
+
+    if currency == "Terra":
+        response_coinbase = requests.get("https://api.coinbase.com/v2/prices/WLUNA-USD/spot")
+
     data_coinbase = response_coinbase.json()
-    currency_coinbase = data_coinbase["data"]["base"]
     price_coinbase = data_coinbase["data"]["amount"]
-    print(f"{currency_coinbase} price is {price_coinbase} at Coinbase")
+    prices['Coinbase'] = price_coinbase
 
     #HUOBI
     response_huobi = requests.get("https://api.huobi.pro/market/detail/merged?symbol="+crypto[currency].lower()+"usdt")
     data_huobi = response_huobi.json()
     price_huobi = data_huobi['tick']['close']
-    print(f"{crypto[currency]} price is {price_huobi} at Huobi Global")
+    prices['Huobi'] = price_huobi
 
     #KRAKEN
     response_kraken = requests.get("https://api.kraken.com/0/public/Ticker?pair="+crypto[currency]+"USD")
     data_kraken = response_kraken.json()
     # 'c' is the last closed price, there are nice things too
     price_kraken = data_kraken['result'][list(data_kraken['result'].keys())[0]]['c'][0]
-    print(f"{crypto[currency]} price is {price_kraken} at Kraken")
+    prices['Kraken'] = price_kraken
 
     #FTX
     response_ftx= requests.get("https://ftx.com/api/markets/"+crypto[currency]+"/USD")
+    
+    if currency == "Cardano":
+        response_ftx= requests.get("https://ftx.com/api/markets/ADA-PERP")
+
     data_ftx = response_ftx.json()
     price_ftx = data_ftx['result']['last']
-    print(f"{crypto[currency]} price is {price_ftx} at FTX")
+    prices['FTX'] = price_ftx
+
+    return prices
