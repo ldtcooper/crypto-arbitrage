@@ -1,4 +1,5 @@
-pip install pandas #install panda using pip
-pip install yfinance #install yfinance using pip
-pip install YahooFinancials #install YahooFinancials using pip
-pip install requests #install requests using pip
+pip install pandas
+pip install yfinance
+pip install YahooFinancials
+pip install requests
+pip install apscheduler
