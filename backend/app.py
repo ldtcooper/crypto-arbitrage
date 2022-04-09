@@ -1,7 +1,7 @@
-from flask import Flask,request
+from flask import Flask, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./build', static_url_path='/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://cryptouser:password@localhost/cryptoinfo'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -46,6 +46,10 @@ def format_output(output):
         'date': output.date
     }
 
+
+@app.route('/', methods=['GET'])
+def sendFrontend():
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/', methods = ['POST'])
 def updateDatabase():
