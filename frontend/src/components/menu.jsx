@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import Checkboxes from './checkboxes';
 import Dropdown from './dropdown';
@@ -12,10 +13,24 @@ import {
     updateInput,
     toggleExchange,
     selectInputVal,
-    selectDates
+    selectDates,
+    getCurrentData
 } from '../reducers';
 
+import { tickerToName, currencies } from '../utils'; 
+
 const drawerWidth = 240;
+
+const determineFetchEnabled = (currency, exchanges, isHistory, startDate, endDate) => {
+    const currencyFilled = !!currency;
+    const atLeastOneExchange = Object.keys(exchanges).some((el) => exchanges[el]);
+    if(isHistory) {
+        const datesSpecified = !!(startDate && endDate);
+        return currencyFilled && atLeastOneExchange && datesSpecified;
+    } else {
+        return currencyFilled && atLeastOneExchange
+    }
+};
 
 function Menu(props) {
     const { window } = props;
@@ -38,10 +53,7 @@ function Menu(props) {
     const drawer = (
         <div>
             <Dropdown 
-                options={[
-                    {val: 'BTC', text: 'Bitcoin'},
-                    {val: 'ETH', text: 'Ethereum'},
-                ]}
+                options={currencies.map((el) => ({val: el, text: tickerToName(el)}))}
                 value={currency || ''}
                 label="Currency"
                 handleChange={(e) => dispatch(updateInput(e.target))}
@@ -82,7 +94,15 @@ function Menu(props) {
                 ) : null
                 
             }
-
+            <Divider />
+            <Button 
+                sx={{ marginTop: '15px' }}
+                variant="contained"
+                onClick={() => dispatch(getCurrentData())}
+                disabled={!determineFetchEnabled(currency, exchanges, isHistory, startDate, endDate)}
+            >
+                Fetch
+            </Button>
         </div>
     );
 
