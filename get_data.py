@@ -1,11 +1,11 @@
-import time
 from datetime import datetime as dt
 import psycopg2 as pg
 from get_last_price_general import last_price
+from apscheduler.schedulers.blocking import BlockingScheduler
 
-while True:
+def job():
     # connect db
-    conn = pg.connect("dbname = CryptoArbitrage user=causer password=crypto")
+    conn = pg.connect("dbname = cryptoarbitrage user=causer password=crypto")
     cursor = conn.cursor()
 
     # current supported currencies
@@ -54,4 +54,6 @@ while True:
     cursor.close()
     conn.close()
 
-    time.sleep(3600)
+scheduler = BlockingScheduler()
+scheduler.add_job(job, 'interval', hours = 1)
+scheduler.start()
