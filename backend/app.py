@@ -1,8 +1,17 @@
 from flask import Flask, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+import json
+
+def read_config():
+    f = open('config.json', "r")
+    config = json.loads(f.read())
+    f.close()
+    return config
+
+config = read_config()
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://cryptouser:password@localhost/cryptoinfo'
+app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{config['user']}:{config['password']}@{config['host']}/{config['database']}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
