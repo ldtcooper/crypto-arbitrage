@@ -47,7 +47,7 @@ def format_output(output):
     }
 
 
-@app.route('/', methods = ['POST'])
+@app.route('/', methods = ['POST']) #updating the database
 def updateDatabase():
     #scrape data and add to database
     rate = request.json['rate']
@@ -65,21 +65,38 @@ def updateDatabase():
     db.session.commit()
     return format_output(rate_event)
 
-@app.route('/arbitrage', methods = ['POST'])
+@app.route('/arbitrage', methods = ['GET']) 
 def getArbitrage():
     #get data
-    eid = request.json['eid']
+    eid = request.json['eid'] #is a list (prob request.args, change based on input)
     cid = request.json['cid']
 
-    res = Rates.query.filter_by(eid=eid,cid=cid).all()
+    #get most recent
+    res = []
+    for e in eid:
+        res.append(Rates.query.filter_by(eid=e,cid=cid).order_by(Rates.date.desc()).limit(1).all())
     res_list = []
     for ele in res:
         res_list.append(format_output(ele))
     return {'rates': res_list}
 
-@app.route('/history', methods = ['POST'])
+@app.route('/history', methods = ['GET']) 
 def getHistoricalData():
-    return 'Hey!'
+    #get data
+    eid = request.json['eid'] #is a list
+    cid = request.json['cid'] 
+    start = request.json['date_1']
+    end = request.json['date_2']
+
+    #get all txns between date 1 and 2
+    res = []
+    for e in eid:
+        res.append(Rates.query.filter_by(eid=e,cid=cid).\
+            filter(Rates.date<=start, Rates.date>=end).all())
+    res_list = []
+    for ele in res:
+        res_list.append(format_output(ele))
+    return {'rates': res_list}
 
 if __name__ == '__main__':
     app.run()
