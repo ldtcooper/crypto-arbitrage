@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, make_response
 from flask_sqlalchemy import SQLAlchemy
 import json
 
@@ -93,6 +93,26 @@ def getArbitrage():
 @app.route('/history', methods = ['POST'])
 def getHistoricalData():
     return 'Hey!'
+
+# # CORS handling for frontend debugging, don't enable this otherwise
+# @app.after_request
+# def after_request_func(response):
+#     origin = request.headers.get('Origin')
+#     if request.method == 'OPTIONS':
+#         response = make_response()
+#         response.headers.add('Access-Control-Allow-Credentials', 'true')
+#         response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+#         response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
+#         response.headers.add('Access-Control-Allow-Methods',
+#                             'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+#         if origin:
+#             response.headers.add('Access-Control-Allow-Origin', origin)
+#     else:
+#         response.headers.add('Access-Control-Allow-Credentials', 'true')
+#         if origin:
+#             response.headers.add('Access-Control-Allow-Origin', origin)
+
+#     return response
 
 if __name__ == '__main__':
     app.run()

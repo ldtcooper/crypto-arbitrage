@@ -14,10 +14,10 @@ import {
     toggleExchange,
     selectInputVal,
     selectDates,
-    getCurrentData
+    getArbitrage
 } from '../reducers';
 
-import { tickerToName, currencies } from '../utils'; 
+import { tickerToName, currencies, exchangeToId } from '../utils'; 
 
 const drawerWidth = 240;
 
@@ -31,6 +31,8 @@ const determineFetchEnabled = (currency, exchanges, isHistory, startDate, endDat
         return currencyFilled && atLeastOneExchange
     }
 };
+
+const formatExchanges = (exchangeObj) => Object.keys(exchangeObj).map((el) => exchangeToId(el));
 
 function Menu(props) {
     const { window } = props;
@@ -49,6 +51,14 @@ function Menu(props) {
     const availableDates = useSelector(selectDates()).map((el) => ({ val: el, text: el }));
 
     const dispatch = useDispatch();
+
+    const handleSubmit = () => {
+        if(isHistory) {
+
+        } else {
+            return dispatch(getArbitrage({ eid: formatExchanges(exchanges)[0], cid: currency }))
+        } 
+    };
 
     const drawer = (
         <div>
@@ -98,7 +108,7 @@ function Menu(props) {
             <Button 
                 sx={{ marginTop: '15px' }}
                 variant="contained"
-                onClick={() => dispatch(getCurrentData())}
+                onClick={handleSubmit}
                 disabled={!determineFetchEnabled(currency, exchanges, isHistory, startDate, endDate)}
             >
                 Fetch
