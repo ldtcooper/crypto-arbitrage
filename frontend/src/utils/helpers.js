@@ -31,7 +31,7 @@ export function exchangeToId(exchange) {
 
 async function makeRequest(route, body) {
     const res = await fetch(`http://localhost:5000/${route}`, {
-        method: 'POST',
+        method: 'GET',
         mode: 'cors',
         cache: 'no-cache',
         credentials: 'same-origin',
@@ -40,7 +40,6 @@ async function makeRequest(route, body) {
         },
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
-        body: JSON.stringify(body)
     });
     return res.json();
 }
