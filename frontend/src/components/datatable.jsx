@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 import { selectCurrentData, selectInputVal } from '../reducers';
 
-import { toTitleString } from '../utils'; 
+import { toTitleString, tickerToName } from '../utils'; 
 
 function DataTable() {
     const currency = useSelector(selectInputVal('currency'));
@@ -22,7 +22,7 @@ function DataTable() {
     return (
         data.length === 0 ? <Typography variant="h4" component="h2">Select a currency and exchanges</Typography> : (
             <TableContainer component={Paper} sx={{}}>
-                <Typography variant="h4" component="h2">{currency}</Typography>
+                <Typography variant="h4" component="h2">{tickerToName(currency)}</Typography>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>

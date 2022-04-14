@@ -14,7 +14,8 @@ import {
     toggleExchange,
     selectInputVal,
     selectDates,
-    getArbitrage
+    getArbitrage,
+    getHistory
 } from '../reducers';
 
 import { tickerToName, currencies, exchangeToId } from '../utils'; 
@@ -54,9 +55,9 @@ function Menu(props) {
 
     const handleSubmit = () => {
         if(isHistory) {
-
+            return dispatch(getHistory({ eid: formatExchanges(exchanges), cid: currency, startDate: startDate, endDate: endDate }));
         } else {
-            return dispatch(getArbitrage({ eid: formatExchanges(exchanges)[0], cid: currency }))
+            return dispatch(getArbitrage({ eid: formatExchanges(exchanges), cid: currency }));
         } 
     };
 
@@ -66,6 +67,7 @@ function Menu(props) {
                 options={currencies.map((el) => ({val: el, text: tickerToName(el)}))}
                 value={currency || ''}
                 label="Currency"
+                name="currency"
                 handleChange={(e) => dispatch(updateInput(e.target))}
             />
             <Divider />
@@ -92,12 +94,14 @@ function Menu(props) {
                             options={availableDates}
                             value={startDate || ''}
                             label="Start Date"
+                            name="startDate"
                             handleChange={(e) => dispatch(updateInput(e.target))}
                         />
                         <Dropdown
                             options={availableDates}
                             value={endDate || ''}
                             label="End Date"
+                            name="endDate"
                             handleChange={(e) => dispatch(updateInput(e.target))}
                         />
                     </div>

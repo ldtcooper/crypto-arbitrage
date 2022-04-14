@@ -1,9 +1,10 @@
 from flask import Flask, request, send_from_directory, make_response
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import asc
 import json
 
 def read_config():
-    f = open('config.json', "r")
+    f = open('./config.json', "r")
     config = json.loads(f.read())
     f.close()
     return config
@@ -55,7 +56,22 @@ def format_output(output):
         'date': output.date
     }
 
+def format_arbitrage(output):
+    return {
+        'rate': output.rate,
+        'exchange': output.name
+    }
 
+def build_history_dict(row):
+    return {
+        'rate': row.rate,
+        'date': str(row.date),
+        'currency': row.cid,
+        'exchange': row.name
+    }
+
+def format_history(output):
+    return [build_history_dict(r) for r in output]
 
 @app.route('/', methods=['GET'])
 def sendFrontend():
@@ -82,55 +98,75 @@ def updateDatabase():
 @app.route('/arbitrage', methods = ['GET']) 
 def getArbitrage():
     #get data
-    eid = request.json['eid'] #is a list (prob request.args, change based on input)
-    cid = request.json['cid']
-
+    eid = request.args['eid'].split(',') #is a list (prob request.args, change based on input)
+    cid = request.args['cid']
+    
     #get most recent
     res = []
     for e in eid:
-        res.append(Rates.query.filter_by(eid=e,cid=cid).order_by(Rates.date.desc()).limit(1).all())
+        res.append(
+            Rates.query
+                .join(Exchanges)
+                .add_columns(Rates.rate, Exchanges.name, Rates.cid)
+                .filter(Rates.eid == Exchanges.id)
+                .filter(Rates.eid == e, Rates.cid == cid)
+                .order_by(Rates.date.desc())
+                .limit(1).all()
+        )
     res_list = []
     for ele in res:
-        res_list.append(format_output(ele))
+        res_list.append(format_arbitrage(ele[0]))
     return {'rates': res_list}
 
 @app.route('/history', methods = ['GET']) 
 def getHistoricalData():
     #get data
-    eid = request.json['eid'] #is a list
-    cid = request.json['cid'] 
-    start = request.json['date_1']
-    end = request.json['date_2']
+    eid = request.args['eid'].split(',') #is a list
+    cid = request.args['cid'] 
+    start = request.args['startDate']
+    end = request.args['endDate']
 
     #get all txns between date 1 and 2
     res = []
     for e in eid:
-        res.append(Rates.query.filter_by(eid=e,cid=cid).\
-            filter(Rates.date<=start, Rates.date>=end).all())
+        res.append(Rates.query
+            .join(Exchanges)
+            .add_columns(Rates.rate, Exchanges.name, Rates.cid, Rates.date)
+            .filter(Rates.eid == Exchanges.id)
+            .filter(Rates.eid == e, Rates.cid == cid)
+            .filter(Rates.date>=start, Rates.date<=end)
+            .all()
+        )
+
     res_list = []
     for ele in res:
-        res_list.append(format_output(ele))
-    return {'rates': res_list}
+        res_list.append(format_history(ele))
+    return {'history': res_list}
 
-# # CORS handling for frontend debugging, don't enable this otherwise
-# @app.after_request
-# def after_request_func(response):
-#     origin = request.headers.get('Origin')
-#     if request.method == 'OPTIONS':
-#         response = make_response()
-#         response.headers.add('Access-Control-Allow-Credentials', 'true')
-#         response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-#         response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
-#         response.headers.add('Access-Control-Allow-Methods',
-#                             'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-#         if origin:
-#             response.headers.add('Access-Control-Allow-Origin', origin)
-#     else:
-#         response.headers.add('Access-Control-Allow-Credentials', 'true')
-#         if origin:
-#             response.headers.add('Access-Control-Allow-Origin', origin)
+@app.route('/dates', methods = ['GET'])
+def getDates():
+    dates_unique = Rates.query.with_entities(Rates.date).order_by(asc(Rates.date)).distinct().all()
+    return { 'dates': [el.date.strftime("%m/%d/%Y, %H:%M:%S") for el in dates_unique]}
 
-#     return response
+# CORS handling for frontend debugging, don't enable this otherwise
+@app.after_request
+def after_request_func(response):
+    origin = request.headers.get('Origin')
+    if request.method == 'OPTIONS':
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
+        response.headers.add('Access-Control-Allow-Methods',
+                            'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+        if origin:
+            response.headers.add('Access-Control-Allow-Origin', origin)
+    else:
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        if origin:
+            response.headers.add('Access-Control-Allow-Origin', origin)
+
+    return response
 
 if __name__ == '__main__':
     app.run()

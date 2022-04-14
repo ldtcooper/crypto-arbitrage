@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchArbitrage } from '../utils/helpers';
+import { fetchArbitrage, fetchHistory, fetchDates, formatHistory } from '../utils/helpers';
 
 const initialState = {
     current: [],
-    historical: [],
-    dates: ['3/16/22', '3/17/22', '3/18/22']
+    history: [],
+    dates: []
 };
 
 const mockData = [
@@ -20,6 +20,22 @@ export const getArbitrage = createAsyncThunk(
     async (body) => {
         const resp = await fetchArbitrage(body);
         return resp.rates;
+    }
+)
+
+export const getHistory = createAsyncThunk(
+    'data/fetchHistory',
+    async (body) => {
+        const resp = await fetchHistory(body);
+        return resp.history;
+    }
+)
+
+export const getDates = createAsyncThunk(
+    'data/fetchDates',
+    async () => {
+        const resp = await fetchDates();
+        return resp.dates;
     }
 )
 
@@ -43,6 +59,12 @@ export const dataSlice = createSlice({
             .addCase(getArbitrage.rejected, (state) => {
                 state.current = [];
             })
+            .addCase(getHistory.fulfilled, (state, action) => {
+                state.history = formatHistory(action.payload);
+            })
+            .addCase(getDates.fulfilled, (state, action) => {
+                state.dates = action.payload;
+            })
     },
 });
 
@@ -54,6 +76,10 @@ export const selectDates = () => (state) => {
 
 export const selectCurrentData = () => (state) => {
     return state.data.current;
+}
+
+export const selectHistoricalData = () => (state) => {
+    return state.data.history;
 }
 
 export default dataSlice.reducer;
