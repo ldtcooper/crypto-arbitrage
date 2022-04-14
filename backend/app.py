@@ -148,25 +148,25 @@ def getDates():
     dates_unique = Rates.query.with_entities(Rates.date).order_by(asc(Rates.date)).distinct().all()
     return { 'dates': [el.date.strftime("%m/%d/%Y, %H:%M:%S") for el in dates_unique]}
 
-# CORS handling for frontend debugging, don't enable this otherwise
-@app.after_request
-def after_request_func(response):
-    origin = request.headers.get('Origin')
-    if request.method == 'OPTIONS':
-        response = make_response()
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-        response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
-        response.headers.add('Access-Control-Allow-Methods',
-                            'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-        if origin:
-            response.headers.add('Access-Control-Allow-Origin', origin)
-    else:
-        response.headers.add('Access-Control-Allow-Credentials', 'true')
-        if origin:
-            response.headers.add('Access-Control-Allow-Origin', origin)
+# # CORS handling for frontend debugging, don't enable this otherwise
+# @app.after_request
+# def after_request_func(response):
+#     origin = request.headers.get('Origin')
+#     if request.method == 'OPTIONS':
+#         response = make_response()
+#         response.headers.add('Access-Control-Allow-Credentials', 'true')
+#         response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+#         response.headers.add('Access-Control-Allow-Headers', 'x-csrf-token')
+#         response.headers.add('Access-Control-Allow-Methods',
+#                             'GET, POST, OPTIONS, PUT, PATCH, DELETE')
+#         if origin:
+#             response.headers.add('Access-Control-Allow-Origin', origin)
+#     else:
+#         response.headers.add('Access-Control-Allow-Credentials', 'true')
+#         if origin:
+#             response.headers.add('Access-Control-Allow-Origin', origin)
 
-    return response
+#     return response
 
 if __name__ == '__main__':
     app.run()
