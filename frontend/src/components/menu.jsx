@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
 import { useSelector, useDispatch } from 'react-redux';
 import Checkboxes from './checkboxes';
 import Dropdown from './dropdown';
@@ -12,10 +13,27 @@ import {
     updateInput,
     toggleExchange,
     selectInputVal,
-    selectDates
+    selectDates,
+    getArbitrage,
+    getHistory
 } from '../reducers';
 
+import { tickerToName, currencies, exchangeToId } from '../utils'; 
+
 const drawerWidth = 240;
+
+const determineFetchEnabled = (currency, exchanges, isHistory, startDate, endDate) => {
+    const currencyFilled = !!currency;
+    const atLeastOneExchange = Object.keys(exchanges).some((el) => exchanges[el]);
+    if(isHistory) {
+        const datesSpecified = !!(startDate && endDate);
+        return currencyFilled && atLeastOneExchange && datesSpecified;
+    } else {
+        return currencyFilled && atLeastOneExchange
+    }
+};
+
+const formatExchanges = (exchangeObj) => Object.keys(exchangeObj).map((el) => exchangeToId(el));
 
 function Menu(props) {
     const { window } = props;
@@ -35,15 +53,21 @@ function Menu(props) {
 
     const dispatch = useDispatch();
 
+    const handleSubmit = () => {
+        if(isHistory) {
+            return dispatch(getHistory({ eid: formatExchanges(exchanges), cid: currency, startDate: startDate, endDate: endDate }));
+        } else {
+            return dispatch(getArbitrage({ eid: formatExchanges(exchanges), cid: currency }));
+        } 
+    };
+
     const drawer = (
         <div>
             <Dropdown 
-                options={[
-                    {val: 'BTC', text: 'Bitcoin'},
-                    {val: 'ETH', text: 'Ethereum'},
-                ]}
+                options={currencies.map((el) => ({val: el, text: tickerToName(el)}))}
                 value={currency || ''}
                 label="Currency"
+                name="currency"
                 handleChange={(e) => dispatch(updateInput(e.target))}
             />
             <Divider />
@@ -70,19 +94,29 @@ function Menu(props) {
                             options={availableDates}
                             value={startDate || ''}
                             label="Start Date"
+                            name="startDate"
                             handleChange={(e) => dispatch(updateInput(e.target))}
                         />
                         <Dropdown
                             options={availableDates}
                             value={endDate || ''}
                             label="End Date"
+                            name="endDate"
                             handleChange={(e) => dispatch(updateInput(e.target))}
                         />
                     </div>
                 ) : null
                 
             }
-
+            <Divider />
+            <Button 
+                sx={{ marginTop: '15px' }}
+                variant="contained"
+                onClick={handleSubmit}
+                disabled={!determineFetchEnabled(currency, exchanges, isHistory, startDate, endDate)}
+            >
+                Fetch
+            </Button>
         </div>
     );
 

@@ -14,7 +14,7 @@ export const inputSlice = createSlice({
             state[name] = value;
         },
         toggleExchange: (state, action) => {
-            const { name, value } = action.payload;
+            const { name } = action.payload;
             state.exchanges[name] = !state.exchanges[name];
         },
         clearInputs: (state) => {
