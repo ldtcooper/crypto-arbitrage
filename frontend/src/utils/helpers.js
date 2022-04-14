@@ -32,7 +32,7 @@ export function exchangeToId(exchange) {
 const formatEids = (eid) => eid.join(',');
 
 export async function fetchArbitrage({eid, cid}) {
-    const res = await fetch(`http://localhost:5000/arbitrage?eid=${formatEids(eid)}&cid=${cid}`, {
+    const res = await fetch(`/arbitrage?eid=${formatEids(eid)}&cid=${cid}`, {
         method: 'GET',
         mode: 'cors',
         cache: 'no-cache',
@@ -47,7 +47,7 @@ export async function fetchArbitrage({eid, cid}) {
 }
 
 export async function fetchHistory({eid, cid, startDate, endDate}) {
-    const res = await fetch(`http://localhost:5000/history?eid=${formatEids(eid)}&cid=${cid}&startDate=${startDate}&endDate=${endDate}`, {
+    const res = await fetch(`/history?eid=${formatEids(eid)}&cid=${cid}&startDate=${startDate}&endDate=${endDate}`, {
         method: 'GET',
         mode: 'cors',
         cache: 'no-cache',
@@ -62,7 +62,7 @@ export async function fetchHistory({eid, cid, startDate, endDate}) {
 }
 
 export async function fetchDates() {
-    const res = await fetch(`http://localhost:5000/dates`, {
+    const res = await fetch(`/dates`, {
         method: 'GET',
         mode: 'cors',
         cache: 'no-cache',
