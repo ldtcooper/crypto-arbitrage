@@ -76,7 +76,6 @@ export async function fetchDates() {
     return res.json();
 }
 
-
 export function formatHistory(history) {
     const numExchanges = history.length;
     const histLength = history[0].length;

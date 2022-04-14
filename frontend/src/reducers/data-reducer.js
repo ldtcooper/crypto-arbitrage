@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchArbitrage, fetchHistory, fetchDates, formatHistory } from '../utils/helpers';
+import { fetchArbitrage, fetchHistory, fetchDates, formatHistory, formatArbitrage } from '../utils/helpers';
 
 const initialState = {
     current: [],
@@ -56,14 +56,20 @@ export const dataSlice = createSlice({
             .addCase(getArbitrage.fulfilled, (state, action) => {
                 state.current = action.payload;
             })
-            .addCase(getArbitrage.rejected, (state) => {
-                state.current = [];
-            })
             .addCase(getHistory.fulfilled, (state, action) => {
                 state.history = formatHistory(action.payload);
             })
             .addCase(getDates.fulfilled, (state, action) => {
                 state.dates = action.payload;
+            })
+            .addCase(getArbitrage.rejected, (state) => {
+                state.current = [];
+            })
+            .addCase(getHistory.rejected, (state) => {
+                state.history = [];
+            })
+            .addCase(getDates.rejected, (state) => {
+                state.dates = [];
             })
     },
 });
